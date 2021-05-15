@@ -1,0 +1,8 @@
+virtualenv>=20.4.6
+Flask==1.1.2
+# Flask==2.0.0
+boto3>=1.17.72
+requests>=2.22.0
+werkzeug<2.0.0
+# werkzeug>=2.0.0
+pytest>=6.2.4

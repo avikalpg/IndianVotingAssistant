@@ -9,7 +9,7 @@ This is a complete FOSS project, which means that it includes the backend as wel
 Hopefully, this backend API will be used to create chatbots, Android/iOS/KaiOS apps, websites, Alexa Skills etc. Consequently, any issues, pull requests etc. related to the backend API must have the label `api` and the issues, pull requests etc. related to any form of graphical frontend must have the `gui` label.
 
 ### API
-The API is hosted on AWS Lambda. The code (and `README`) for the same can be found in the `api`.
+The API is hosted on [Serverless Framework](https://www.serverless.com/) using AWS Lambda and DynamoDB. The code (and `README`) for the same can be found in the `api`.
 
 ### GUI
 As of now (May 2021), there is no work done on the frontend. Please feel free to fork this repository, add a new folder for a new frontend, like `android`, `fb_messenger_bot`, `alexa` or `web`, to start building such a GUI for end-users to be able to fully utilize this program.
