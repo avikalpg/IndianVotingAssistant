@@ -186,4 +186,4 @@ For additional local development capabilities of `serverless-wsgi` and `serverle
 
 
 ### Testing
-We are writing the unit-tests using `unittest`, which is a part of the standard python library. [Here](https://docs.python.org/3/library/unittest.html) is the documentation for the library.
+We are writing the unit-tests using `pytest`. [Here](https://docs.pytest.org/en/6.2.x/) is the documentation for the library.
