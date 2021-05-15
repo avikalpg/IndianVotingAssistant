@@ -18,13 +18,18 @@ USERS_TABLE = os.environ['USERS_TABLE']
 def landing():
     return jsonify({'message':'Welcome to Indian Voting Assistant'})
 
-@app.route('/getConstituencyFromLocation', methods=['POST'])
+@app.route('/getConstituencyFromLocation', methods=['GET','POST'])
 def getConstituencyFromLocation():
-    lat: float = request.json.get('latitude')
-    long: float = request.json.get('longitude')
-    if not lat or not long:
-        return jsonify({'error':"request body must contain float type fields 'lat' and 'long'"}), 400
-    return jsonify({'l': lat, 'h':long})
+    try:
+        lat = request.json.get('latitude') if request.method == 'POST' else float(request.args.get('latitude'))
+        lon = request.json.get('longitude') if request.method == 'POST' else float(request.args.get('longitude'))
+    except ValueError:
+        return jsonify({'error':"fields 'latitude' and 'longitude' must be of type float"}), 400
+    if not lat or not lon:
+        return jsonify({'error':"request body must contain float type fields 'latitude' and 'longitude'"}), 400
+    elif not isinstance(lat, float) or not isinstance(lon, float):
+        return jsonify({'error':"fields 'latitude' and 'longitude' must be of type float"}), 400
+    return jsonify({'l': [lat, str(type(lat))], 'h':[lon, isinstance(lon, float)]})
 
 
 @app.route('/users/<string:user_id>')

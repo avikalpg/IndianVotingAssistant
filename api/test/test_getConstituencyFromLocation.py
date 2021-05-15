@@ -19,7 +19,6 @@ def test_api_field_name_check(getConstituencyFromLocationUrl, req):
 	res = requests.request("POST", url, headers=headers, data=json.dumps(req))
 	assert res.status_code == 400
 
-@pytest.mark.xfail
 @pytest.mark.parametrize("lat, lon", [('a', 73.0), (32.121, 2)])
 def test_api_field_value_type_check(getConstituencyFromLocationUrl, lat, lon):
 	url, headers = getConstituencyFromLocationUrl
