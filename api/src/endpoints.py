@@ -1,5 +1,5 @@
 from flask import jsonify, make_response, request
-from src import app, constituency, users
+from src import app, constituency, users, election, candidate
 
 @app.route('/')
 def landing():
