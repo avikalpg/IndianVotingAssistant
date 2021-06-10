@@ -1,7 +1,7 @@
 from src import app
 from flask import jsonify, request
 
-@app.route('/getCandidatesFromElection', methods['GET', 'POST'])
+@app.route('/getCandidatesFromElection', methods=['GET', 'POST'])
 def getCandidatesFromElection():
     # TODO: Implement the function
 	return jsonify({'error':'Function not implemented'})
