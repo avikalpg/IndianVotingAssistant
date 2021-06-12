@@ -1,7 +1,8 @@
 from datetime import date
+import traceback
 from typing import Tuple
 
-from werkzeug.exceptions import Gone
+from werkzeug.exceptions import FailedDependency, Gone
 from src import app
 from flask import jsonify, request
 import requests
@@ -21,7 +22,7 @@ def getElectionsFromPartNo():
 def getElectionsFromState():
 	state_elections, exp = __getNextElectionForState(request.args.get('state', '', type=str))
 	if exp != None:
-		app.logger.error(exp.with_traceback(exp.__traceback__))
+		app.logger.error(''.join(traceback.format_exception(type(exp), exp, exp.__traceback__)))
 		return jsonify({'exception':exp.description}), exp.code
 	return jsonify(state_elections)
 
@@ -45,10 +46,13 @@ def __getTableInformationFromHTML(html_text: str):
 	return all_data
 
 def __getNextElectionForState(stateName: str) -> Tuple[object, Exception]:
-	r = requests.get('https://eci.gov.in/elections/term-of-houses/')
-	print("__getNextElectionForState", r.status_code)
-	if r.status_code != 200:
-		return None, Gone("Failed to get Term-of-houses from ECI website", r.raw)
+	try:
+		r = requests.get('https://eci.gov.in/elections/term-of-houses/')
+		print("__getNextElectionForState", r.status_code)
+		if r.status_code != 200:
+			raise Gone("Failed to get Term-of-houses from ECI website", r.raw)
+	except Exception as e:
+		return None, e
 
 	next_elections = []
 	terms_of_houses = __getTableInformationFromHTML(r.text)
@@ -56,16 +60,25 @@ def __getNextElectionForState(stateName: str) -> Tuple[object, Exception]:
 	state_elections_terms = terms_of_houses[1]
 
 	# extract the date for next lok sabha elections
-	lok_sabha_elections = union_elections_terms[(union_elections_terms['OFFICE/STATE'] == "LOK SABHA") & (union_elections_terms['TO'].str.contains('^\d+\.\d+\.\d+$'))]
-	assert(lok_sabha_elections.shape[0] == 1) # there should be only one end-date for lok sabha elections
+	try:
+		lok_sabha_elections = union_elections_terms[(union_elections_terms['OFFICE/STATE'] == "LOK SABHA") & (union_elections_terms['TO'].str.contains('^\d+\.\d+\.\d+$'))]
+		if lok_sabha_elections.shape[0] != 1:
+			# there should be only one end-date for lok sabha elections
+				raise FailedDependency("Found "+ str(lok_sabha_elections.shape[0]) +" end-dates for the term of lok sabha on ECI website")
+	except Exception as e:
+		return None, e
 	next_elections.append(lok_sabha_elections.to_dict(orient='records')[0])
 
 	# extract the date for next state elections
-	state_elections = state_elections_terms[(state_elections_terms['HOUSE/STATE'] == stateName.upper()) & (state_elections_terms['TO'].str.contains('^\d+\.\d+\.\d+$'))]
-	assert(state_elections.shape[0] == 1) # there should be only one end-date for any state's elections
+	try:
+		state_elections = state_elections_terms[(state_elections_terms['HOUSE/STATE'] == stateName.upper()) & (state_elections_terms['TO'].str.contains('^\d+\.\d+\.\d+$'))]
+		if state_elections.shape[0] != 1:
+			# there should be only one end-date for any state's elections
+				raise FailedDependency("Found "+ str(state_elections.shape[0]) +" end-dates for the term of " + stateName.upper() + " State on ECI website")
+	except Exception as e:
+		return None, e
 	next_elections.append(state_elections.to_dict(orient='records')[0])
 
-	print(next_elections)	
 	next_elections.sort(key=lambda df: __getDateFromDateString(df['TO']))
 
 	return next_elections, None
