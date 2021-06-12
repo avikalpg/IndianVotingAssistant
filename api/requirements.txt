@@ -6,3 +6,7 @@ requests>=2.22.0
 werkzeug<2.0.0
 # werkzeug>=2.0.0
 pytest>=6.2.4
+requests>=2.25.1
+beautifulsoup4>=4.9.3
+pandas>=1.2.4
+lxml>=4.6.3

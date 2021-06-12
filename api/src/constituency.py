@@ -21,7 +21,7 @@ def getConstituencyFromVoterId():
 	voter_id = request.json.get('voter_id') if request.method == 'POST' else request.args.get('voter_id')
 	if not voter_id:
 		return jsonify({'error':"request body must contain the field 'voter_id'"}), 400
-	elif not isinstance(lat, str):
+	elif not isinstance(voter_id, str):
 		return jsonify({'error':"field 'voter_id' must be of type str"}), 400
 	
 	# TODO: Implement the function
