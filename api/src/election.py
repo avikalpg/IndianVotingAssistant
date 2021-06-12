@@ -1,6 +1,7 @@
 from datetime import date
-from os import error
 from typing import Tuple
+
+from werkzeug.exceptions import Gone
 from src import app
 from flask import jsonify, request
 import requests
@@ -18,10 +19,10 @@ def getElectionsFromPartNo():
 
 @app.route('/getElectionsFromState', methods=['GET', 'POST'])
 def getElectionsFromState():
-	state_elections, err = __getNextElectionForState(request.args.get('state', '', type=str))
-	if err != None:
-		app.logger.error(err.with_traceback())
-		return jsonify({'error':err.strerror})
+	state_elections, exp = __getNextElectionForState(request.args.get('state', '', type=str))
+	if exp != None:
+		app.logger.error(exp.with_traceback(exp.__traceback__))
+		return jsonify({'exception':exp.description}), exp.code
 	return jsonify(state_elections)
 
 @app.route('/getAllFutureElections', methods=['GET'])
@@ -43,11 +44,11 @@ def __getTableInformationFromHTML(html_text: str):
 			all_data.append(table)
 	return all_data
 
-def __getNextElectionForState(stateName: str) -> Tuple[object, error]:
+def __getNextElectionForState(stateName: str) -> Tuple[object, Exception]:
 	r = requests.get('https://eci.gov.in/elections/term-of-houses/')
 	print("__getNextElectionForState", r.status_code)
 	if r.status_code != 200:
-		return None, error("Failed to get Term-of-houses from ECI website")
+		return None, Gone("Failed to get Term-of-houses from ECI website", r.raw)
 
 	next_elections = []
 	terms_of_houses = __getTableInformationFromHTML(r.text)
