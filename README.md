@@ -13,3 +13,14 @@ The API is hosted on [Serverless Framework](https://www.serverless.com/) using A
 
 ### GUI
 As of now (May 2021), there is no work done on the frontend. Please feel free to fork this repository, add a new folder for a new frontend, like `android`, `fb_messenger_bot`, `alexa` or `web`, to start building such a GUI for end-users to be able to fully utilize this program.
+
+## Author's note
+
+_Please understand that by contributing to this repository, you are not only helping someone make a more informed decision, you are also saving democracy in India. You are making this world a better place for billions of Indians, born in every generation forever._
+
+> If you ever face a conflict regarding any decision related to this project, please read the [Constitution of India](https://legislative.gov.in/constitution-of-india) and try to follow it as closely as possible, irrespective of what other laws say.
+> Understand the principles of the forefathers of our nation and make sure that those principles are upheld in this democracy that they have established.
+
+### Other resources
+
+* To get motivated, I recommend learning about the life and contributions of [Aaron Schwartz](https://en.wikipedia.org/wiki/Aaron_Swartz). This movie, [The Internet's Own Boy: The Story of Aaron Swartz](https://www.youtube.com/watch?v=9vz06QO3UkQ) is a great source for the same.
