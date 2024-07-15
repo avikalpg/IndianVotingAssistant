@@ -4,7 +4,7 @@ A personalised helper for voters in Indian Elections for only viewing informatio
 Most people who vote in India are not aware of anything related to the candidates they vote for. In recent years, assembly elections in India have turned into USA-like presidential elections where voters just vote for a political party instead of voting for a candidate. The aim of this project is to create a very easy way to use way to see personalized relevant information about all eligible candidates related only to matters that the voter cares about.
 
 ## Components
-This is a complete FOSS project, which means that it includes the backend as well as the frontend for creation of this service. Although, we do not want to restrict the utility of this apptication to a certain form of product. Hence, we have created an independent REST API backend which can be used with any frontend. 
+This is a complete FOSS project, which means that it includes the backend as well as the frontend for creation of this service. Although, we do not want to restrict the utility of this application to a certain form of product. Hence, we have created an independent REST API backend which can be used with any frontend. 
 
 Hopefully, this backend API will be used to create chatbots, Android/iOS/KaiOS apps, websites, Alexa Skills etc. Consequently, any issues, pull requests etc. related to the backend API must have the label `api` and the issues, pull requests etc. related to any form of graphical frontend must have the `gui` label.
 
